@@ -20,7 +20,7 @@ public class HBaseUtil {
     public static void init() throws Exception {
         System.out.println("初始化Hbase");
         configuration = HBaseConfiguration.create();
-        configuration.set("hbase.rootdir", "hdfs://localhost:9000/hbase");
+//        configuration.set("hbase.rootdir", "hdfs://localhost:9000/hbase");
         connection = ConnectionFactory.createConnection(configuration);
         admin = connection.getAdmin();
     }
@@ -34,7 +34,7 @@ public class HBaseUtil {
     public static void createTable(String name, String[] colFamily) throws IOException {
         TableName tableName = TableName.valueOf(name);
         if (admin.tableExists(tableName)) {
-            System.out.println("talbe is exists!");
+            System.out.println("table is exists!");
         } else {
             TableDescriptorBuilder tableDescriptor = TableDescriptorBuilder.newBuilder(tableName);
             for (String str : colFamily) {
@@ -50,10 +50,10 @@ public class HBaseUtil {
      * 插入数据
      *
      * @param tableName 表名
-     * @param rowKey
-     * @param colFamily
-     * @param col
-     * @param val
+     * @param rowKey    rowKey
+     * @param colFamily colFamily
+     * @param col       col
+     * @param val       val
      * @throws IOException 异常
      */
     public static void insertData(String tableName, String rowKey, String colFamily, String col, String val) throws IOException {
@@ -68,9 +68,9 @@ public class HBaseUtil {
      * 取数据
      *
      * @param tableName 表名
-     * @param rowKey
-     * @param colFamily
-     * @param col
+     * @param rowKey    rowKey
+     * @param colFamily colFamily
+     * @param col       col
      * @throws IOException 异常
      */
     public static String getData(String tableName, String rowKey, String colFamily, String col) throws IOException {
