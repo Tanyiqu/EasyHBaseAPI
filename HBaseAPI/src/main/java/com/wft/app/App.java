@@ -1,6 +1,7 @@
 package com.wft.app;
 
 
+import com.wft.util.HBaseUtil;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.*;
@@ -15,72 +16,17 @@ public class App {
     public static Admin admin;
 
     public static void main(String[] args) throws Exception {
-        init();
-        createTable("student", new String[]{"score"});
-        insertData("student", "zhangsan", "score", "English", "69");
-        insertData("student", "zhangsan", "score", "Math", "86");
-        insertData("student", "zhangsan", "score", "Computer", "77");
-        getData("student", "zhangsan", "score", "English");
-        close();
-    }
+//        System.out.println("请选择：");
+//        System.out.println("1.创建表");
+//        System.out.println("2.查询");
 
-    public static void init() {
-        System.out.println("start");
-        configuration = HBaseConfiguration.create();
-        configuration.set("hbase.rootdir", "hdfs://localhost:9000/hbase");
-//        configuration.set("hbase.rootdir", "hdfs://192.168.0.103:9000/hbase");
-        try {
-            connection = ConnectionFactory.createConnection(configuration);
-            admin = connection.getAdmin();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    public static void close() {
-        try {
-            if (admin != null) {
-                admin.close();
-            }
-            if (null != connection) {
-                connection.close();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void createTable(String myTableName, String[] colFamily) throws IOException {
-        System.out.println("createTable");
-        TableName tableName = TableName.valueOf(myTableName);
-        if (admin.tableExists(tableName)) {
-            System.out.println("talbe is exists!");
-        } else {
-            TableDescriptorBuilder tableDescriptor = TableDescriptorBuilder.newBuilder(tableName);
-            for (String str : colFamily) {
-                ColumnFamilyDescriptor family =
-                        ColumnFamilyDescriptorBuilder.newBuilder(Bytes.toBytes(str)).build();
-                tableDescriptor.setColumnFamily(family);
-            }
-            admin.createTable(tableDescriptor.build());
-        }
-    }
-
-    public static void insertData(String tableName, String rowKey, String colFamily, String col, String val) throws IOException {
-        System.out.println("insertData");
-        Table table = connection.getTable(TableName.valueOf(tableName));
-        Put put = new Put(rowKey.getBytes());
-        put.addColumn(colFamily.getBytes(), col.getBytes(), val.getBytes());
-        table.put(put);
-        table.close();
-    }
-
-    public static void getData(String tableName, String rowKey, String colFamily, String col) throws IOException {
-        Table table = connection.getTable(TableName.valueOf(tableName));
-        Get get = new Get(rowKey.getBytes());
-        get.addColumn(colFamily.getBytes(), col.getBytes());
-        Result result = table.get(get);
-        System.out.println(new String(result.getValue(colFamily.getBytes(), col == null ? null : col.getBytes())));
-        table.close();
+//        // 调用HBaseUtil
+        HBaseUtil.init();
+        HBaseUtil.createTable("student", new String[]{"score"});
+        HBaseUtil.insertData("student", "zhangsan", "score", "Computer", "77");
+        String result = HBaseUtil.getData("student", "zhangsan", "score", "English");
+        HBaseUtil.close();
+        System.out.println(result);
     }
 }
