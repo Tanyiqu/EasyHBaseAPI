@@ -1,7 +1,8 @@
 package com.wft.util;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.*;
+import org.apache.hadoop.hbase.HBaseConfiguration;
+import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
 
@@ -17,6 +18,11 @@ public class HBaseUtil {
     public static Admin admin;
 
 
+    /**
+     * 初始化
+     *
+     * @throws Exception 异常
+     */
     public static void init() throws Exception {
         System.out.println("初始化Hbase");
         configuration = HBaseConfiguration.create();
@@ -25,11 +31,13 @@ public class HBaseUtil {
         admin = connection.getAdmin();
     }
 
+
     /**
      * 创建表
      *
      * @param name      表名
      * @param colFamily 列
+     * @throws IOException 异常
      */
     public static void createTable(String name, String[] colFamily) throws IOException {
         TableName tableName = TableName.valueOf(name);
@@ -85,6 +93,8 @@ public class HBaseUtil {
 
     /**
      * 关闭连接
+     *
+     * @throws IOException 异常
      */
     public static void close() throws IOException {
         if (admin != null) {
