@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 
 public class AddStudentFrame extends JFrame {
 
+    AddStudentFrame _this = this;
     JButton btnAdd;
     JTextField txtName;
     JTextField txtSex;
@@ -69,6 +70,7 @@ public class AddStudentFrame extends JFrame {
                 }
                 try {
                     HBaseUtil.save(new Student(name, sex, math, english));
+                    _this.dispose();
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
