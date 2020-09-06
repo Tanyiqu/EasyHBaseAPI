@@ -15,17 +15,17 @@ public class MyFrame extends JFrame {
         initFrame();
     }
 
-    void initFrame(){
+    void initFrame() {
         // title
         this.setTitle("Easy HBase API");
         // location
-        this.setSize(240,300);
-        this.setLocation(800,350);
+        this.setSize(240, 300);
+        this.setLocation(800, 350);
         // layout
         this.setLayout(new FlowLayout());
         this.setResizable(false);
 
-        Dimension dimension = new Dimension(200,25);
+        Dimension dimension = new Dimension(200, 25);
         btnShowStudent = new JButton("Show Student");
         btnShowStudent.setPreferredSize(dimension);
         btnAddStudent = new JButton("Add Student");
@@ -46,7 +46,15 @@ public class MyFrame extends JFrame {
         this.setVisible(true);
     }
 
-    void addListeners(){
+    void addListeners() {
+
+        // show
+        btnShowStudent.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ShowStudentFrame();
+            }
+        });
 
         // add
         btnAddStudent.addActionListener(new ActionListener() {
