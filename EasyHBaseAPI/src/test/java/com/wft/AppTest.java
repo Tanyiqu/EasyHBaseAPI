@@ -1,13 +1,10 @@
 package com.wft;
 
 import com.wft.domain.Student;
-import com.wft.util.AppUtil;
 import com.wft.util.HBaseUtil;
-import org.apache.hadoop.hbase.Cell;
-import org.apache.hadoop.hbase.CellUtil;
-import org.apache.hadoop.hbase.client.Result;
-import org.apache.hadoop.hbase.util.Bytes;
 import org.junit.Test;
+
+import java.util.List;
 
 
 /**
@@ -17,7 +14,16 @@ public class AppTest {
 
     @Test
     public void test() throws Exception {
-        Student student = AppUtil.get("z3");
+        Student student = HBaseUtil.get("w5");
         System.out.println(student);
     }
+
+    @Test
+    public void testAll() throws Exception {
+        List<Student> students = HBaseUtil.getAll();
+        for (Student s : students) {
+            System.out.println(s);
+        }
+    }
+
 }
