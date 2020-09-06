@@ -1,20 +1,16 @@
 package com.wft;
 
-import static org.junit.Assert.assertTrue;
-
+import com.wft.util.HBaseUtil;
 import org.junit.Test;
 
 /**
  * Unit test for simple App.
  */
-public class AppTest 
-{
-    /**
-     * Rigorous Test :-)
-     */
+public class AppTest {
+
     @Test
-    public void shouldAnswerWithTrue()
-    {
-        assertTrue( true );
+    public void test() throws Exception{
+        String result = HBaseUtil.getData("student", "z3", "score", "Math");
+        System.out.println(result);
     }
 }

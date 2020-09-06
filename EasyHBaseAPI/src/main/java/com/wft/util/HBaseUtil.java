@@ -94,16 +94,19 @@ public class HBaseUtil {
      * @param rowKey    rowKey
      * @param colFamily colFamily
      * @param col       col
-     * @throws IOException 异常
+     * @throws Exception 异常
      */
-    public static String getData(String tableName, String rowKey, String colFamily, String col) throws IOException {
+    public static String getData(String tableName, String rowKey, String colFamily, String col) throws Exception {
+        init();
         Table table = connection.getTable(TableName.valueOf(tableName));
         Get get = new Get(rowKey.getBytes());
         get.addColumn(colFamily.getBytes(), col.getBytes());
         Result result = table.get(get);
 //        System.out.println(new String(result.getValue(colFamily.getBytes(), col.getBytes())));
         table.close();
-        return new String(result.getValue(colFamily.getBytes(), col.getBytes()));
+        String data = new String(result.getValue(colFamily.getBytes(), col.getBytes()));
+        close();
+        return data;
     }
 
     /**
