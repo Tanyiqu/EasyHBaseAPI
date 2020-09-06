@@ -4,7 +4,11 @@ import com.alibaba.lindorm.client.core.utils.Bytes;
 import com.wft.domain.Student;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CellUtil;
+import org.apache.hadoop.hbase.KeyValue;
 import org.apache.hadoop.hbase.client.Result;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class AppUtil {
 
@@ -16,16 +20,14 @@ public class AppUtil {
      * @throws Exception Exception
      */
     public static Student get(String name) throws Exception {
-        Student student = new Student();
-        Result result = HBaseUtil.get("student", name);
-        for (Cell cell : result.listCells()) {
-            System.out.println(Bytes.toString(CellUtil.cloneQualifier(cell)));
-            System.out.println(Bytes.toString(CellUtil.cloneValue(cell)));
+        Result r = HBaseUtil.get("student", name);
+        if (r == null) {
+            return null;
         }
-
-        student.setName(name);
-
-        return student;
+        String sex = new String(r.getValue(Bytes.toBytes("sex"), Bytes.toBytes("")));
+        String math = new String(r.getValue(Bytes.toBytes("score"), Bytes.toBytes("Math")));
+        String english = new String(r.getValue(Bytes.toBytes("score"), Bytes.toBytes("English")));
+        return new Student(name, sex, math, english);
     }
 
 

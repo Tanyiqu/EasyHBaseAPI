@@ -87,35 +87,6 @@ public class HBaseUtil {
         close();
     }
 
-    /**
-     * 取数据
-     *
-     * @param tableName 表名
-     * @param rowKey    rowKey
-     * @param colFamily colFamily
-     * @param col       col
-     * @throws Exception 异常
-     */
-    public static String getData(String tableName, String rowKey, String colFamily, String col) throws Exception {
-        init();
-        Table table = connection.getTable(TableName.valueOf(tableName));
-        Get get = new Get(rowKey.getBytes());
-        get.addColumn(colFamily.getBytes(), col.getBytes());
-        Result result = table.get(get);
-//        System.out.println(new String(result.getValue(colFamily.getBytes(), col.getBytes())));
-        table.close();
-        String data = new String(result.getValue(colFamily.getBytes(), col.getBytes()));
-        close();
-        return data;
-    }
-
-    public static void getRowKeys(String tableName) throws Exception {
-        init();
-        Table table = connection.getTable(TableName.valueOf(tableName));
-
-
-        close();
-    }
 
     /**
      * 根据rowKey查找数据
