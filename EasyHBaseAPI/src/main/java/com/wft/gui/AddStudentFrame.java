@@ -1,5 +1,6 @@
 package com.wft.gui;
 
+import com.wft.util.HBaseUtil;
 import com.wft.util.TextUtil;
 
 import javax.swing.*;
@@ -69,6 +70,7 @@ public class AddStudentFrame extends JFrame {
 
                 System.out.println(name + ' ' + sex + ' ' + math + ' ' + english);
                 System.out.println("Add...");
+
 
                 
             }
