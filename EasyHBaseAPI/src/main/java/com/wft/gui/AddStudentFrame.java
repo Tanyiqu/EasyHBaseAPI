@@ -63,15 +63,11 @@ public class AddStudentFrame extends JFrame {
                 String sex = txtSex.getText();
                 String math = txtMath.getText();
                 String english = txtEnglish.getText();
-
+                // ensure strings not empty
                 if (TextUtil.empty(name, sex, math, english)) {
                     System.out.println("do not input empty!");
                     return;
                 }
-
-                System.out.println(name + ' ' + sex + ' ' + math + ' ' + english);
-                System.out.println("Add...");
-
                 try {
                     AppUtil.save(new Student(name, sex, math, english));
                 } catch (Exception exception) {
