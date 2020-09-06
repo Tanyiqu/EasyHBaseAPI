@@ -1,7 +1,12 @@
 package com.wft;
 
 import com.wft.util.HBaseUtil;
+import org.apache.hadoop.hbase.Cell;
+import org.apache.hadoop.hbase.CellUtil;
+import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.util.Bytes;
 import org.junit.Test;
+
 
 /**
  * Unit test for simple App.
@@ -9,8 +14,13 @@ import org.junit.Test;
 public class AppTest {
 
     @Test
-    public void test() throws Exception{
-        String result = HBaseUtil.getData("student", "z3", "score", "Math");
-        System.out.println(result);
+    public void test() throws Exception {
+        Result r = HBaseUtil.get("student", "z3");
+
+        for (Cell cell : r.listCells()) {
+            System.out.println(Bytes.toString(CellUtil.cloneQualifier(cell)));
+            System.out.println(Bytes.toString(CellUtil.cloneValue(cell)));
+        }
+
     }
 }

@@ -109,6 +109,31 @@ public class HBaseUtil {
         return data;
     }
 
+    public static void getRowKeys(String tableName) throws Exception {
+        init();
+        Table table = connection.getTable(TableName.valueOf(tableName));
+
+
+        close();
+    }
+
+    /**
+     * 根据rowKey查找数据
+     *
+     * @param tableName tableName
+     * @param rowKey    rowKey
+     * @return Result
+     * @throws Exception Exception
+     */
+    public static Result get(String tableName, String rowKey) throws Exception {
+        init();
+        Get get = new Get(Bytes.toBytes(rowKey));
+        Table table = connection.getTable(TableName.valueOf(tableName));
+        Result result = table.get(get);
+        close();
+        return result;
+    }
+
     /**
      * 关闭连接
      *

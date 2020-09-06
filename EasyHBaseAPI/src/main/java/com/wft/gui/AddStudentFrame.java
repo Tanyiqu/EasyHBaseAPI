@@ -1,5 +1,7 @@
 package com.wft.gui;
 
+import com.wft.domain.Student;
+import com.wft.util.AppUtil;
 import com.wft.util.HBaseUtil;
 import com.wft.util.TextUtil;
 
@@ -69,6 +71,8 @@ public class AddStudentFrame extends JFrame {
 
                 System.out.println(name + ' ' + sex + ' ' + math + ' ' + english);
                 System.out.println("Add...");
+
+                AppUtil.save(new Student(name, sex, math, english));
 
                 //
                 try {
