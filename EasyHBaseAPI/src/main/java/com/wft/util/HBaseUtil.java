@@ -23,13 +23,25 @@ public class HBaseUtil {
      * @throws Exception 异常
      */
     public static void init() throws Exception {
-        System.out.println("初始化Hbase");
         configuration = HBaseConfiguration.create();
 //        configuration.set("hbase.rootdir", "hdfs://localhost:9000/hbase");
         connection = ConnectionFactory.createConnection(configuration);
         admin = connection.getAdmin();
     }
 
+    /**
+     * return true if table is exist
+     *
+     * @param name tableName
+     * @return return true if table is exist
+     */
+    public static boolean tableIsExist(String name) throws Exception {
+        init();
+        TableName tableName = TableName.valueOf(name);
+        boolean flag = admin.tableExists(tableName);
+        close();
+        return flag;
+    }
 
     /**
      * 创建表
@@ -38,7 +50,8 @@ public class HBaseUtil {
      * @param colFamily 列
      * @throws IOException 异常
      */
-    public static void createTable(String name, String[] colFamily) throws IOException {
+    public static void createTable(String name, String[] colFamily) throws Exception {
+        init();
         TableName tableName = TableName.valueOf(name);
         if (admin.tableExists(tableName)) {
             System.out.println("table is exists!");
@@ -50,6 +63,7 @@ public class HBaseUtil {
             }
             admin.createTable(tableDescriptor.build());
         }
+        close();
     }
 
 
@@ -63,12 +77,14 @@ public class HBaseUtil {
      * @param val       val
      * @throws IOException 异常
      */
-    public static void insertData(String tableName, String rowKey, String colFamily, String col, String val) throws IOException {
+    public static void insertData(String tableName, String rowKey, String colFamily, String col, String val) throws Exception {
+        init();
         Table table = connection.getTable(TableName.valueOf(tableName));
         Put put = new Put(rowKey.getBytes());
         put.addColumn(colFamily.getBytes(), col.getBytes(), val.getBytes());
         table.put(put);
         table.close();
+        close();
     }
 
     /**
