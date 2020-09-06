@@ -72,21 +72,8 @@ public class AddStudentFrame extends JFrame {
                 System.out.println(name + ' ' + sex + ' ' + math + ' ' + english);
                 System.out.println("Add...");
 
-                AppUtil.save(new Student(name, sex, math, english));
-
-                //
                 try {
-                    if (!HBaseUtil.tableIsExist("student")) {
-                        System.out.println("Table is not exist");
-                        // create table
-                        HBaseUtil.createTable("student", new String[]{"sex", "score"});
-                        System.out.println("create finished");
-                    }
-                    HBaseUtil.insertData("student", name, "sex", "", sex);
-                    HBaseUtil.insertData("student", name, "score", "Math", math);
-                    HBaseUtil.insertData("student", name, "score", "English", english);
-                    System.out.println("insert finished");
-
+                    AppUtil.save(new Student(name, sex, math, english));
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
